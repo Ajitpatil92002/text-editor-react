@@ -17,15 +17,10 @@ const TextEditor = () => {
       setContent(data.content);
       setContentid(data._id);
       document.getElementById("editor").innerHTML = data.content;
-         setLoading(false);
+      setLoading(false);
     }
     getData(import.meta.env.VITE_API_URL);
-<<<<<<< HEAD
   }, []);
-=======
- 
-  }, []);.
->>>>>>> 5116578b0bab83a6fcf3b5232308cb1a457c0f46
 
   function editContent(params) {
     async function putData(url) {
