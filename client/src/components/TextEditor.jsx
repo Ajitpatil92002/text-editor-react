@@ -74,8 +74,8 @@ const TextEditor = () => {
                   onClick={() => {
                     handleTextEditor(btn.cmd, btn.value, btn.id);
                   }}
-                  className={`p-2 hover:bg-slate-30 ${
-                    activeBtn === btn.id && "bg-slate-200"
+                  className={`p-2 hover:bg-slate-200 ${
+                    activeBtn === btn.id && "bg-slate-300"
                   }`}
                 >
                   {btn.icon ? (
