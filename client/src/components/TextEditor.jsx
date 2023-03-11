@@ -12,12 +12,13 @@ const TextEditor = () => {
     async function getData(url) {
       const resp = await fetch(url);
       const { data } = await resp.json();
+      //setting loding false because to innnerHTML
+      setLoading(false);
       setContent(data.content);
       setContentid(data._id);
       document.getElementById("editor").innerHTML = data.content;
     }
     getData(import.meta.env.VITE_API_URL);
-    setLoading(false);
   }, []);
 
   function editContent(params) {
@@ -30,17 +31,14 @@ const TextEditor = () => {
         "Content-Type": "application/json",
       };
 
-      let resp = await fetch(url+"edit", {
+      let resp = await fetch(url + "edit", {
         method: "POST",
         body: bodyContent,
         headers: headersList,
       });
       const { data } = await resp.json();
-
       setContent(data);
       document.getElementById("editor").innerHTML = data;
-      setLoading(true);
-      setLoading(false);
     }
     putData(import.meta.env.VITE_API_URL);
   }
