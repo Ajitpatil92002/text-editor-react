@@ -6,6 +6,7 @@ function App() {
         <h1 className="text-2xl font-bold">
           Rich Text Editor, What ever You Type it get saves permanently in databse{" "}
         </h1>
+        {/* Text Editor Component */}
         <TextEditor />
       </div>
     </>

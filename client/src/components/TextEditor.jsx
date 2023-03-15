@@ -7,21 +7,57 @@ const TextEditor = () => {
 
   const [activeBtn, setActiveBtn] = useState(null);
   const [loading, setLoading] = useState(true);
+  
+  // handle text Editor using web api
+
+  function handleTextEditor(cmd, value = "", id) {
+
+    if (activeBtn === id) {
+      // removing the active to inactive by setting null
+      setActiveBtn(null);
+    } else {
+
+      //  checking whether the cmd is supported to the browser
+      if (document.queryCommandSupported(cmd)) {
+
+        document.execCommand(cmd, false, value);
+        // setting active btn by its id
+        setActiveBtn(id);
+        
+      } else {
+        // alert if cmd is not supported
+        alert("your browser is not supported");
+      }
+    }
+  }
+
+  const handleContentChange = (event) => {
+    setContent(event.target.innerHTML);
+  };
 
   useEffect(() => {
+    // function to get data from database using express api
     async function getData(url) {
       const resp = await fetch(url);
       const { data } = await resp.json();
-      //setting loding false because to innnerHTML
+      
+      // setting loding false because to innnerHTML
       setLoading(false);
+      //adding data to the state with _id (just use some hacks to work properly)
       setContent(data.content);
       setContentid(data._id);
+
+      // inserting data to the html element
       document.getElementById("editor").innerHTML = data.content;
+
       setLoading(false);
     }
+    // calling get data function once the components is render with api url form env
     getData(import.meta.env.VITE_API_URL);
   }, []);
 
+
+  //Edit content function which makes post request for api to save the changes of the content
   function editContent(params) {
     async function putData(url) {
       let bodyContent = JSON.stringify({
@@ -43,23 +79,6 @@ const TextEditor = () => {
     }
     putData(import.meta.env.VITE_API_URL);
   }
-
-  function handleTextEditor(cmd, value = "", id) {
-    if (activeBtn === id) {
-      setActiveBtn(null);
-    } else {
-      if (document.queryCommandSupported(cmd)) {
-        document.execCommand(cmd, false, value);
-        setActiveBtn(id);
-      } else {
-        alert("your browser is not supported");
-      }
-    }
-  }
-
-  const handleContentChange = (event) => {
-    setContent(event.target.innerHTML);
-  };
 
   return (
     <>
